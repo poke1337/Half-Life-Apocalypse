@@ -25,6 +25,8 @@ SWEP.Primary.ClipSize 		= -1
 SWEP.Primary.DefaultClip 	= -1
 SWEP.Primary.Automatic 		= false
 SWEP.Primary.Ammo					= "none"
+SWEP.Primary.BulletForce 	= 5
+SWEP.PrimaryDelay					= 1
  
 SWEP.Secondary.ClipSize 	= -1
 SWEP.Secondary.DefaultClip= -1
@@ -36,19 +38,25 @@ SWEP.Author								= "Poke"
 
 SWEP.UseScope 						= false
 SWEP.WeaponDeploySpeed 		= 1
+SWEP.UseHands							= true
 
-SWEP.Primary.ClipSize			= -1
-SWEP.Primary.DefaultClip	= -1
-SWEP.Primary.Ammo					= "none"
+SWEP.IronsightPos 				= Vector( 0, 0, 0 )
+SWEP.IronsightAng 				= Vector( 0, 0, 0 )
+SWEP.IronsightFOV 				= 68
 
-SWEP.Secondary.ClipSize		= -1
-SWEP.Secondary.DefaultClip = -1
-SWEP.Secondary.Automatic 	= false
-SWEP.Secondary.Ammo				= "none"
+SWEP.Primary.DrawSound 		= Sound( "" )
+SWEP.Primary.Sound        = Sound( "" )
+SWEP.Primary.ReloadSound 	= Sound( "" )
+SWEP.IronsightSoundOn 		= Sound( "" )
+SWEP.IronsightSoundOff 		= Sound( "" )
+SWEP.ShootHitSound  			= Sound( "" )
 
-local IronsightSoundOn 		= Sound( "weapons/generic/ironsight_on.wav" )
-local IronsightSoundOff 	= Sound( "weapons/generic/ironsight_off.wav" )
-local ShootHitSound  			= Sound("player/pistolhit/PistolHit" .. math.random(1,3) .. ".wav")
+util.PrecacheSound( SWEP.Primary.DrawSound )
+util.PrecacheSound( SWEP.Primary.Sound )
+util.PrecacheSound( SWEP.Primary.ReloadSound )
+util.PrecacheSound( SWEP.IronsightSoundOn )
+util.PrecacheSound( SWEP.IronsightSoundOff )
+util.PrecacheSound( SWEP.ShootHitSound )
 
 local IRONSIGHT_TIME 			= 0.15
 
@@ -60,7 +68,7 @@ function SWEP:Deploy()
 	self.Primary.Damage 		= self.PrimaryDamage
 	self.Primary.Recoil 		= self.PrimaryRecoil
 
-	self.Weapon:EmitSound( Sound( self.Primary.WeaponDrawSound ) )
+	self.Weapon:EmitSound( self.Primary.DrawSound )
 	self:SetIronsights(false, self.Owner)
 
 	return true
@@ -91,33 +99,31 @@ function SWEP:Reload()
 	self:SetIronsights(false)
 	self.Weapon:DefaultReload( ACT_VM_RELOAD )
 
-	if self.Weapon:DefaultReload() then
+	self.Primary.Automatic 	= self.PrimaryAutomatic
+	self.Primary.Delay 			= self.PrimaryDelay
+	self.Primary.Cone 			= self.PrimaryCone
+	self.Primary.Damage 		= self.PrimaryDamage
+	self.Primary.Recoil 		= self.PrimaryRecoil
 
-		self.Primary.Automatic 	= self.PrimaryAutomatic
-		self.Primary.Delay 			= self.PrimaryDelay
-		self.Primary.Cone 			= self.PrimaryCone
-		self.Primary.Damage 		= self.PrimaryDamage
-		self.Primary.Recoil 		= self.PrimaryRecoil
+	self.Weapon:EmitSound( self.Primary.ReloadSound )
 
-		if SERVER then
+end
 
-			self.Owner:SetFOV( self.OriginalFOV, 0.3 )
+function SWEP:Holster() 
+	
+	if SERVER then
 
-		end
-
-	end
-
-	if self.Weapon:DefaultReload() then
-
-		self.Weapon:EmitSound( Sound( self.Primary.CustomReloadSound ) )
+		self.Owner:SetFOV( 0, 0.3 )
 
 	end
+
+	return true
 
 end
 
 function SWEP:GetViewModelPosition(pos, ang)
 
-	if ( not self.IronsightsPos ) then return pos, ang end
+	if ( not self.IronsightPos ) then return pos, ang end
 
 	local bIron = self.Weapon:GetNWBool("Ironsights")
 
@@ -158,14 +164,14 @@ function SWEP:GetViewModelPosition(pos, ang)
 
 	end
 
-	local Offset	= self.IronsightsPos
+	local Offset	= self.IronsightPos
 
-	if (self.IronSightsAng) then
+	if ( self.IronsightAng ) then
 
 		ang = ang * 1
-		ang:RotateAroundAxis( ang:Right(), 		self.IronSightsAng.x * Mul )
-		ang:RotateAroundAxis( ang:Up(), 		self.IronSightsAng.y * Mul )
-		ang:RotateAroundAxis( ang:Forward(), 	self.IronSightsAng.z * Mul )
+		ang:RotateAroundAxis( ang:Right(), 		self.IronsightAng.x * Mul )
+		ang:RotateAroundAxis( ang:Up(), 			self.IronsightAng.y * Mul )
+		ang:RotateAroundAxis( ang:Forward(), 	self.IronsightAng.z * Mul )
 
 	end
 
@@ -183,7 +189,7 @@ end
 
 function SWEP:Think()
 
-	self:IronSight()
+	self:Ironsight()
 
 end
 
@@ -202,7 +208,7 @@ function SWEP:PrimaryAttack()
 	
 	self.Owner:ViewPunch( Angle( math.Rand(-0.2,-0.1) * self.Primary.Recoil, math.Rand(-0.1,0.1) * self.Primary.Recoil, 0 ) )
 	
-	if ( ( SinglePlayer() && SERVER ) || CLIENT ) then
+	if ( ( game.SinglePlayer() && SERVER ) || CLIENT ) then
 
 		self.Weapon:SetNetworkedFloat( "LastShootTime", CurTime() )
 
@@ -210,7 +216,7 @@ function SWEP:PrimaryAttack()
 	
 		local tr = self.Owner:GetEyeTrace()
 		if tr.Entity:IsNPC() or tr.Entity:IsPlayer() then
-		tr.Entity:EmitSound (ShootThingSound)
+		tr.Entity:EmitSound ( self.ShootHitSound )
 
 	end	
 
@@ -229,23 +235,9 @@ function SWEP:ShootBullet( dmg, recoil, numbul, cone )
 	bullet.Force			= self.Primary.BulletForce
 	bullet.Damage			= dmg
 
-	local PlayerPos 	= self.Owner:GetShootPos()
-	local PlayerAim 	= self.Owner:GetAimVector()
+	self.Owner:ViewPunch( Angle( self.Primary.BulletForce * 0.5, 0, 0 ) )
 
-	local fx = EffectData()
-	fx:SetEntity(self.Weapon)
-	fx:SetOrigin(PlayerPos)
-	fx:SetNormal(PlayerAim)
-	fx:SetAttachment(self.MuzzleAttachment)
-	if self.UseCustomMuzzleFlash then
-
-		util.Effect(self.MuzzleEffect,fx)
-
-	else
-
-		self.Owner:MuzzleFlash()
-
-	end
+	self.Owner:MuzzleFlash()
 
 	self.Owner:FireBullets( bullet )
 	self.Weapon:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
@@ -253,7 +245,7 @@ function SWEP:ShootBullet( dmg, recoil, numbul, cone )
 	
 	if ( self.Owner:IsNPC() ) then return end
 
-	if ( ( SinglePlayer() && SERVER ) || ( !SinglePlayer() && CLIENT && IsFirstTimePredicted() ) ) then
+	if ( ( game.SinglePlayer() && SERVER ) || ( !game.SinglePlayer() && CLIENT && IsFirstTimePredicted() ) ) then
 	
 		local eyeang = self.Owner:EyeAngles()
 		eyeang.pitch = eyeang.pitch - recoil
@@ -285,11 +277,11 @@ function SWEP:Ironsight()
 
 		if self.Owner:KeyPressed( IN_ATTACK2 ) then
 
-			self.Owner:SetFOV( 0, 0.15 )
+			self.Owner:SetFOV( self.IronsightFOV , 0.15 )
 			self.Owner:ViewPunch( Angle( -1, -1, 0 ) )
 			
 			self:SetIronsights( true, self.Owner )
-			self.Weapon:EmitSound( IronSightSound1 )
+			self.Weapon:EmitSound( self.IronsightSoundOn )
 
 			if CLIENT then return end
 
@@ -303,7 +295,7 @@ function SWEP:Ironsight()
 		self.Owner:ViewPunch( Angle( 1, 1, 0 ) )
 
 		self:SetIronsights( false, self.Owner )
-		self.Weapon:EmitSound( IronSightSound2 )
+		self.Weapon:EmitSound( self.IronsightSoundOff )
 
 		if CLIENT then return end
 
