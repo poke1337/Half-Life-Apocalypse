@@ -8,7 +8,7 @@ hla.CreateHookServer("PlayerDisconnected") --> Use on player disconnect hook.
 hla.CreateHookServer("ShowSpare2") --> Use the F4 hook.
 
 --> Remove a players vote if they voted and then disconnected.
-hla.AddHook("PlayerDisconnected", "Remove start vote", function(ply)
+hla.AddHookServer("PlayerDisconnected", "Remove start vote", function(ply)
 
 	for i=1,#iVoted do
 
@@ -24,7 +24,7 @@ hla.AddHook("PlayerDisconnected", "Remove start vote", function(ply)
 end)
 
 --> Player vote to start the round.
-hla.AddHook("ShowSpare2", "Vote to start button", function(ply)
+hla.AddHookServer("ShowSpare2", "Vote to start button", function(ply)
 
 	table.insert(iVoted, ply)
 
