@@ -1,4 +1,4 @@
-GM.Version = "0.0.2"
+GM.Version = "0.3.1"
 GM.Name = "hla"
 GM.Author = "Poke and Blue Badger"
 
@@ -19,13 +19,19 @@ hla.CreateHook = function( hookName )
 
     G.hook.Add( hookName, "hla_" .. hookName, function( ... )
 
-        for i = 1, #hla.Hooks[ hookName ] do
-            
-            local errors, errorMsg = G.pcall( hla.Hooks[ hookName ][ i ](), G.unpack( arg, 1, n ) )
+        if not G.type( hla.Hooks[ hookName ] ) ~= "table" then return end
+
+        local args = { ... }
+        print( unpack( args ) )
+
+        for identifier, _ in pairs( hla.Hooks[ hookName ] ) do
+
+            if G.type( hla.Hooks[ hookName ][ identifier ] ) ~= "function" then continue end
+            local errors, errorMsg = G.pcall( hla.Hooks[ hookName ][ identifier ]( unpack( args ) ), nil )
 
             if errors then
                 
-                local infoFunction = debug.getinfo( hla.Hooks[ hookName ][ i ], "l" )
+                local infoFunction = debug.getinfo( hla.Hooks[ hookName ][ identifier ], "S" )
 
                 G.ErrorNoHalt( errorMsg )
                 G.print( infoFunction.linedefined )
@@ -38,16 +44,27 @@ hla.CreateHook = function( hookName )
 
 end
 
-hla.AddHook = function( hookName, func )
+hla.AddHook = function( hookName, identifier, func )
 
-    hla.Hooks[ hookName ][ #hla.Hooks[ hookName ] + 1 ] = func
+    hla.Hooks[ hookName ] = hla.Hooks[ hookName ] or {}
+
+    if G.type( hla.Hooks[ hookName ][ identifier ] ) == "function" then
+        
+        local infoFunction = debug.getinfo( hla.Hooks[ hookName ][ identifier ], "S" )
+
+        G.ErrorNoHalt( "Hook Name: " .. "\'" .. hookName .. "\'" , "Identifier: " .. "\'" .. identifier .. "\'" .. " already exists on line " .. infoFunction.linedefined .. " " .. infoFunction.source )
+
+    end
+
+    hla.Hooks[ hookName ][ identifier ] = func
 
 end
 
-hla.CreateHook( "Think" )
-hla.AddHook( "Think", function()
+hla.RemoveHook = function( hookName, identifier )
 
-    print("hi")
+    hla.Hooks[ hookName ][ identifier ] = nil
+
+end
 
 end )
 
