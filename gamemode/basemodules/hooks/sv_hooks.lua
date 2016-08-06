@@ -1,4 +1,4 @@
-hla.CreateHook = function( hookName )
+hla.CreateHookServer = function( hookName )
 
     for _, v in pairs( hook.GetTable() ) do
 
@@ -38,7 +38,7 @@ hla.CreateHook = function( hookName )
 
 end
 
-hla.AddHook = function( hookName, identifier, func )
+hla.AddHookServer = function( hookName, identifier, func )
 
     hla.Hooks[ hookName ] = hla.Hooks[ hookName ] or {}
 
@@ -54,7 +54,7 @@ hla.AddHook = function( hookName, identifier, func )
 
 end
 
-hla.RemoveHook = function( hookName, identifier )
+hla.RemoveHookServer = function( hookName, identifier )
 
     hla.Hooks[ hookName ][ identifier ] = nil
 
