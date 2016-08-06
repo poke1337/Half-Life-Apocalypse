@@ -1,5 +1,5 @@
-GM.Version = "0.3.1"
-GM.Name = "hla"
+GM.Version = "0.2.1"
+GM.Name = "Half-Life: Apocalypse"
 GM.Author = "Poke and Blue Badger"
 
 DeriveGamemode( "base" )
