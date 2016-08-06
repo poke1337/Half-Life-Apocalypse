@@ -1,8 +1,3 @@
-local iVoted 				= {}
-local fProcentVote	= 0.67
-
-if CLIENT then return end --> Remove this and the locals above when we get a settings file. And change the file to a server file.
-
 hla.CreateHookServer("RoundStart")
 hla.CreateHookServer("PlayerDisconnected") --> Use on player disconnect hook.
 hla.CreateHookServer("ShowSpare2") --> Use the F4 hook.
@@ -10,11 +5,11 @@ hla.CreateHookServer("ShowSpare2") --> Use the F4 hook.
 --> Remove a players vote if they voted and then disconnected.
 hla.AddHookServer("PlayerDisconnected", "Remove start vote", function(ply)
 
-	for i=1,#iVoted do
+	for i=1,#hla.Settings["iVoted"] do
 
-		if ply == iVoted[i] then
+		if ply == hla.Settings["iVoted"][i] then
 			
-			table.RemoveByValue(iVoted, i)
+			table.RemoveByValue(hla.Settings["iVoted"], i)
 			break
 
 		end
@@ -26,13 +21,13 @@ end)
 --> Player vote to start the round.
 hla.AddHookServer("ShowSpare2", "Vote to start button", function(ply)
 
-	table.insert(iVoted, ply)
+	table.insert(hla.Settings["iVoted"], ply)
 
-	if #player.GetAll() * fProcentVote <= #iVoted then
+	if #player.GetAll() * hla.Settings["fProcentVote"] <= #hla.Settings["iVoted"] then
 		
-		table.Empty( iVoted )
+		table.Empty(hla.Settings["iVoted"])
 		hook.Call("RoundStart", #player.GetAll())
 
 	end
 
-end
+end )

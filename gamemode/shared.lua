@@ -1,8 +1,10 @@
-GM.Version = "0.4.1"
+GM.Version = "0.5.0"
 GM.Name = "Half-Life: Apocalypse"
 GM.Author = "Poke and Blue Badger"
 
 DeriveGamemode( "base" )
+
+hla = hla or {}
 
 local G = table.Copy( _G )
 
@@ -12,7 +14,6 @@ function GM:Initialize()
 
 end
 
-hla = {}
 hla.Hooks = {}
 
 local root = GM.FolderName .. "/gamemode/basemodules/"
