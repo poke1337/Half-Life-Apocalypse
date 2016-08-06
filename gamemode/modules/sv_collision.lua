@@ -1,4 +1,4 @@
-hla.HookAddServer("PlayerSpawn")
+hla.CreateHookServer("PlayerSpawn")
 
 hla.AddHookServer("PlayerSpawn", "No player collision", function(ply)
 
