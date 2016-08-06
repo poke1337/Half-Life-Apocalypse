@@ -10,6 +10,43 @@ function GM:Initialize()
 
 end
 
+hla = {}
+hla.Hooks = {}
+
+hla.CreateHook = function( hookName )
+
+    _G.hook.Add( hookName, "hla_" .. hookName, function( ... )
+
+        for i = 1, #hla.Hooks[ hookName ] do
+            
+            local errors, errorMsg = _G.pcall( hla.Hooks[ hookName ][ i ](), _G.unpack( arg, 1, n ) )
+
+            if errors then
+                
+                _G.ErrorNoHalt( errorMsg )
+                _G.print( hookName )
+
+            end
+
+        end
+
+    end )
+
+end
+
+hla.AddHook = function( hookName, func )
+
+    hla.Hooks[ hookName ][ #hla.Hooks[ hookName ] + 1 ] = func
+
+end
+
+hla.CreateHook( "Think" )
+hla.AddHook( "Think", function()
+
+    print("hi")
+
+end )
+
 local _G = table.Copy( _G )
 
 local root = GM.FolderName .. "/gamemode/modules/"
