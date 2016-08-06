@@ -4,6 +4,8 @@ GM.Author = "Poke and Blue Badger"
 
 DeriveGamemode( "base" )
 
+hla = hla or {}
+
 local G = table.Copy( _G )
 
 function GM:Initialize()
@@ -12,7 +14,6 @@ function GM:Initialize()
 
 end
 
-hla = {}
 hla.Hooks = {}
 
 local root = GM.FolderName .. "/gamemode/basemodules/"
