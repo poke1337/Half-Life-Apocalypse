@@ -1,7 +1,0 @@
-"gamemode"
-{
-	"base" "base"
-	"title" "whateveryouwant"
-	"maps" "^gm_"
-	"menusystem" 0
-}

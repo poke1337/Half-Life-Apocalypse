@@ -1,3 +1,16 @@
+GM.Version = "0.01"
+GM.Name = "gm"
+GM.Author = "Poke and Blue Badger"
+
+DeriveGamemode("base")
+DEFINE_BASECLASS("gamemode_sandbox")
+
+function GM:Initialize()
+
+    self.baseclass.Initialize( self )
+
+end
+
 local _G = table.Copy( _G )
 
 local _, folders = _G.file.Find( "gamemode/modules/*", "LUA" )
