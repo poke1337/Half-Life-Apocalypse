@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 GM.Version = "0.6.2"
-=======
-GM.Version = "0.6.1"
->>>>>>> origin/master
 GM.Name = "Half-Life: Apocalypse"
 GM.Author = "Poke and Blue Badger"
 
