@@ -11,7 +11,7 @@ elseif CLIENT then
 	//killicon.Add( "hla_ranged_pistol", "hud/killicons/pistol", Color( 255, 100, 20, 255 ) )
 	
 	//SWEP.WepSelectIcon 		= surface.GetTextureID("hud/killicons/pistol" )
-	SWEP.PrintName 					= "HLA: Pistol"
+	SWEP.PrintName 					= "HL:A Pistol"
  
 	//Sets the position of the weapon in the switching menu 
 	//(appears when you use the scroll wheel or keys 1-6 by default)
