@@ -1,10 +1,10 @@
 GM.Version = "0.0.2"
-GM.Name = "Half Life: Apocalypse"
+GM.Name = "hla"
 GM.Author = "Poke and Blue Badger"
 
 DeriveGamemode( "base" )
 
-local _G = table.Copy( _G )
+local G = table.Copy( _G )
 
 function GM:Initialize()
 
@@ -17,16 +17,18 @@ hla.Hooks = {}
 
 hla.CreateHook = function( hookName )
 
-    _G.hook.Add( hookName, "hla_" .. hookName, function( ... )
+    G.hook.Add( hookName, "hla_" .. hookName, function( ... )
 
         for i = 1, #hla.Hooks[ hookName ] do
             
-            local errors, errorMsg = _G.pcall( hla.Hooks[ hookName ][ i ](), _G.unpack( arg, 1, n ) )
+            local errors, errorMsg = G.pcall( hla.Hooks[ hookName ][ i ](), G.unpack( arg, 1, n ) )
 
             if errors then
                 
-                _G.ErrorNoHalt( errorMsg )
-                _G.print( hookName )
+                local infoFunction = debug.getinfo( hla.Hooks[ hookName ][ i ], "l" )
+
+                G.ErrorNoHalt( errorMsg )
+                G.print( infoFunction.linedefined )
 
             end
 
@@ -51,11 +53,11 @@ end )
 
 local root = GM.FolderName .. "/gamemode/modules/"
 
-local _, folders = _G.file.Find( root .. "*", "LUA" )
+local _, folders = G.file.Find( root .. "*", "LUA" )
 
 for i = 1, #folders do
 
-    for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/sv*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( G.file.Find( root .. folders[ i ] .. "/sv*.lua", "LUA" ) ) do
 
         if SERVER then
 
@@ -65,7 +67,7 @@ for i = 1, #folders do
 
     end
 
-    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/sh*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( G.file.Find( folders[ i ] .. "/sh*.lua", "LUA" ) ) do
 
         if SERVER then
 
@@ -80,7 +82,7 @@ for i = 1, #folders do
 
     end
 
-    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/cl*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( G.file.Find( folders[ i ] .. "/cl*.lua", "LUA" ) ) do
 
         if SERVER then
 
