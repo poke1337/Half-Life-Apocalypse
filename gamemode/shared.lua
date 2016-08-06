@@ -1,4 +1,4 @@
-GM.Version = "0.01"
+GM.Version = "0.0.1"
 GM.Name = "gm"
 GM.Author = "Poke and Blue Badger"
 
