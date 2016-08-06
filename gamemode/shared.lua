@@ -2,26 +2,27 @@ GM.Version = "0.01"
 GM.Name = "gm"
 GM.Author = "Poke and Blue Badger"
 
-DeriveGamemode("base")
-DEFINE_BASECLASS("gamemode_sandbox")
+DeriveGamemode( "base" )
 
 function GM:Initialize()
 
-    self.baseclass.Initialize( self )
+    self.BaseClass.Initialize( self )
 
 end
 
 local _G = table.Copy( _G )
 
-local _, folders = _G.file.Find( "gamemode/modules/*", "LUA" )
+local root = GM.FolderName .. "/gamemode/modules/"
+
+local _, folders = _G.file.Find( root .. "*", "LUA" )
 
 for i = 1, #folders do
 
-    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/sv*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/sv*.lua", "LUA" ) ) do
 
         if SERVER then
-            
-            include( file )
+
+            include( root .. folders[ i ] .. "/" .. file )
 
         end
 
@@ -30,13 +31,13 @@ for i = 1, #folders do
     for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/sh*.lua", "LUA" ) ) do
 
         if SERVER then
-            
-            AddCSLuaFile( file )
-            include( file )
+
+            AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
+            include( root .. folders[ i ] .. "/" .. file )
 
         else
 
-            include( file )
+            include( root .. folders[ i ] .. "/" .. file )
 
         end
 
@@ -45,12 +46,12 @@ for i = 1, #folders do
     for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/cl*.lua", "LUA" ) ) do
 
         if SERVER then
-            
-            AddCSLuaFile( file )
+
+            AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
 
         else
 
-            include( file )
+            include( root .. folders[ i ] .. "/" .. file )
 
         end
 
