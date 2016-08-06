@@ -1,5 +1,5 @@
-# gm
-Gamemode for Garry's Mod
+# Half-Life: Apocalypse
+Half-Life: Apocalypse for Garry's Mod aka hla.
 
 ### Versions summary
 
