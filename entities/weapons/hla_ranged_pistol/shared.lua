@@ -31,6 +31,8 @@ SWEP.HoldType 						= "pistol"
 SWEP.ViewModel 						= "models/weapons/v_pistol.mdl"
 SWEP.WorldModel 					= "models/weapons/w_pistol.mdl"
 SWEP.Category 						= "Half-Life: Apocalypse"
+SWEP.Purpose							= "Kill people."
+SWEP.Instructions					= "Point. Aim. Shoot."
  
 SWEP.Spawnable 						= true
 SWEP.AdminSpawnable				= true
