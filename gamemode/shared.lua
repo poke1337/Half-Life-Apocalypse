@@ -1,4 +1,4 @@
-GM.Version = "0.4.1"
+GM.Version = "0.7.0"
 GM.Name = "Half-Life: Apocalypse"
 GM.Author = "Poke and Blue Badger"
 
@@ -6,23 +6,19 @@ DeriveGamemode( "base" )
 
 hla = hla or {}
 
-local G = table.Copy( _G )
-
 function GM:Initialize()
 
     self.BaseClass.Initialize( self )
 
 end
 
-hla.Hooks = {}
-
 local root = GM.FolderName .. "/gamemode/basemodules/"
 
-local _, folders = G.file.Find( root .. "*", "LUA" )
+local _, folders = _G.file.Find( root .. "*", "LUA" )
 
 for i = 1, #folders do
 
-    for k, file in SortedPairs( G.file.Find( root .. folders[ i ] .. "/sv*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/sv*.lua", "LUA" ) ) do
 
         if SERVER then
 
@@ -32,7 +28,7 @@ for i = 1, #folders do
 
     end
 
-    for k, file in SortedPairs( G.file.Find( folders[ i ] .. "/sh*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/sh*.lua", "LUA" ) ) do
 
         if SERVER then
 
@@ -47,7 +43,7 @@ for i = 1, #folders do
 
     end
 
-    for k, file in SortedPairs( G.file.Find( folders[ i ] .. "/cl*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/cl*.lua", "LUA" ) ) do
 
         if SERVER then
 
@@ -65,11 +61,11 @@ end
 
 local root = GM.FolderName .. "/gamemode/modules/"
 
-local _, folders = G.file.Find( root .. "*", "LUA" )
+local _, folders = _G.file.Find( root .. "*", "LUA" )
 
 for i = 1, #folders do
 
-    for k, file in SortedPairs( G.file.Find( root .. folders[ i ] .. "/sv*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/sv*.lua", "LUA" ) ) do
 
         if SERVER then
 
@@ -79,7 +75,7 @@ for i = 1, #folders do
 
     end
 
-    for k, file in SortedPairs( G.file.Find( folders[ i ] .. "/sh*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/sh*.lua", "LUA" ) ) do
 
         if SERVER then
 
@@ -94,7 +90,7 @@ for i = 1, #folders do
 
     end
 
-    for k, file in SortedPairs( G.file.Find( folders[ i ] .. "/cl*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/cl*.lua", "LUA" ) ) do
 
         if SERVER then
 

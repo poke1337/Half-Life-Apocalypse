@@ -1,3 +1,5 @@
+print("hi")
+
 hla.CreateHookClient = function( hookName )
 
     for _, v in pairs( hook.GetTable() ) do
