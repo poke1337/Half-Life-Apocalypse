@@ -10,3 +10,6 @@ hla.Settings[ "UnDuckSpeed" ] = 0.4
 --> Round start voting
 hla.Settings[ "iVoted" ]				= {}
 hla.Settings[ "fProcentVote" ] 	= 0.67
+
+--> Game state
+hla.Settings[ "GameState" ] 		= 0

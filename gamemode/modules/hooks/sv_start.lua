@@ -21,6 +21,8 @@ end)
 --> Player vote to start the round.
 hla.AddHookServer("ShowSpare2", "Vote to start button", function(ply)
 
+	if hla.Settings["GameState"] != 0 then return end
+
 	table.insert(hla.Settings["iVoted"], ply)
 
 	if #player.GetAll() * hla.Settings["fProcentVote"] <= #hla.Settings["iVoted"] then
