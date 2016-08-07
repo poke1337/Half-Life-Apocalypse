@@ -3,7 +3,5 @@
 	"base" "base"
 	"title" "Half-Life: Apocalypse"
 	"maps" "^hla_"
-	"menusystem" "1"
-
-	"Settings"
+	"menusystem" "0"
 }
