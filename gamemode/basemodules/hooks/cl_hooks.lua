@@ -18,12 +18,10 @@ hla.CreateHookClient = function( hookName )
 
         if _G.type( hla.Hooks[ hookName ] ) ~= "table" then return end
 
-        local args = { ... }
-
         for identifier, _ in pairs( hla.Hooks[ hookName ] ) do
 
             if _G.type( hla.Hooks[ hookName ][ identifier ] ) ~= "function" then continue end
-            local errors, errorMsg = _G.pcall( hla.Hooks[ hookName ][ identifier ]( unpack( args ) ), nil )
+            local errors, errorMsg = _G.pcall( hla.Hooks[ hookName ][ identifier ](), arg )
 
             if errors then
                 
