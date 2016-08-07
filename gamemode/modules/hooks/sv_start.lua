@@ -28,7 +28,7 @@ hla.AddHookServer("ShowSpare2", "Vote to start button", function(ply)
 	if #player.GetAll() * hla.Settings["fProcentVote"] <= #hla.Settings["iVoted"] then
 		
 		table.Empty(hla.Settings["iVoted"])
-		--hook.Call("RoundStart", #player.GetAll())
+		hook.Call("RoundStart", #player.GetAll())
 
 	end
 
