@@ -71,16 +71,20 @@ for i = 1, #folders do
 
             include( root .. folders[ i ] .. "/" .. file )
 
+            print( "Loaded: " .. root .. folders[ i ] .. "/" .. file )
+
         end
 
     end
 
-    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/sh*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/sh*.lua", "LUA" ) ) do
 
         if SERVER then
 
             AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
             include( root .. folders[ i ] .. "/" .. file )
+
+            print( "Loaded: " .. root .. folders[ i ] .. "/" .. file )
 
         else
 
@@ -90,7 +94,7 @@ for i = 1, #folders do
 
     end
 
-    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/cl*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/cl*.lua", "LUA" ) ) do
 
         if SERVER then
 
