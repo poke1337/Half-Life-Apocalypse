@@ -36,7 +36,6 @@ SWEP.Secondary.Ammo 			= "none"
 SWEP.Category							= "Half-Life: Apocalypse"
 SWEP.Author								= "Poke"
 
-SWEP.UseScope 						= false
 SWEP.WeaponDeploySpeed 		= 1
 SWEP.UseHands							= true
 
