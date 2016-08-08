@@ -3,9 +3,11 @@ hla.CreateHookServer("KeyPress")
 
 hla.AddHookServer("PlayerDeath", "Death Spectating", function(victim, inflictor, attacker)
 
+	ply:SetMoveType(MOVETYPE_NONE)
+
 	timer.Simple(3, function() --> Spectate when you die.
 
-		if victim:IsValid() then
+		if victim:IsValid() && !victim:Alive() then
 
 			victim:SetObserverMode(OBS_MODE_ROAMING)
 			victim:SetMoveType(MOVETYPE_OBSERVER)
