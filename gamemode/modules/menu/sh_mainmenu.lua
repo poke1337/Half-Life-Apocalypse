@@ -51,24 +51,35 @@ if CLIENT then
 
 		local cButton = vgui.Create( "DButton", main )
 
-		cButton:SetPos( mW - GlobalLength( 15, w ), 0 )
-		cButton:SetSize( GlobalLength( 15, w ), GlobalLength( 15, w ) )
-		cButton:SetText( "x" )
+		cButton:SetSize( GlobalLength( 100, w ), GlobalLength( 23, h ) )
+		cButton:SetPos( mW - GlobalLength( 15, w ) - cButton:GetWide(), 2 )
+		cButton:SetText( "Disconnect" )
 
 		cButton.DoClick = function( self )
 
-			main:Remove()
+			surface.PlaySound( "garrysmod/ui_click.wav" )
 
-			gui.EnableScreenClicker( false )
+  			LocalPlayer():ConCommand( "disconnect" )
 
+		end
+
+		function cButton:Paint( w, h )
+			draw.RoundedBox( 0, 0, 0, w, h, Color( 65, 133, 244, 255 ) )
+			if cButton:IsHovered() then
+				draw.RoundedBox( 0, 0, h - h * 0.10, w, h * 0.10, Color( 255, 80, 80 ) )  
+				cButton:SetColor( Color( 255, 80, 80 ) )
+			else
+				draw.RoundedBox( 0, 0, h - h * 0.10, w, h * 0.10, Color( 255, 255, 255 ) )
+				cButton:SetColor( Color( 255, 255, 255 ) )
+			end
 		end
 
 		local mdl = vgui.Create( "DModelPanel", main )
 
-		mdl:SetModel( "models/player/kleiner.mdl" )
-		mdl:SetPos( mW - GlobalLength( 275, w ), GlobalLength( 15, h ) )
-		mdl:SetSize( GlobalLength( 250, w ), ScrH() / 1.5 - GlobalLength( 15, h ) )
-		mdl:SetFOV( 36 )
+		//mdl:SetModel( "models/player/kleiner.mdl" ) --> Not needed, we are blocking the view
+		mdl:SetSize( GlobalLength( 340, w ), ScrH() / 1.5 - GlobalLength( 85, h ) )
+		mdl:SetPos( mW - GlobalLength( 340, w ), GlobalLength( 30, h ) )
+		mdl:SetFOV( 60 )
 		mdl:SetCamPos( Vector( 45, 0, 43 ) )
 		mdl:SetDirectionalLight( BOX_RIGHT, Color( 255, 160, 80, 255 ) )
 		mdl:SetDirectionalLight( BOX_LEFT, Color( 80, 160, 255, 255 ) )
@@ -76,7 +87,6 @@ if CLIENT then
 		mdl:SetAnimated( true )
 		mdl.Angles = Angle( 0, 0, 0 )
 		mdl:SetLookAt( Vector( -100, 0, 25 ) )
-
 		local colourPicker = vgui.Create( "DColorMixer", main )
 
 		colourPicker:SetPos( GlobalLength( 25, w ), mH / 1.87 )
@@ -100,7 +110,7 @@ if CLIENT then
 		local mdlSelectorScrollPanel = vgui.Create( "DScrollPanel", main )
 
 		mdlSelectorScrollPanel:SetPos( mW - GlobalLength( 750, w ), GlobalLength( 30, h ) )
-		mdlSelectorScrollPanel:SetSize( GlobalLength( 450, w ), ScrH() / 1.5 - GlobalLength( 45, h ) )
+		mdlSelectorScrollPanel:SetSize( GlobalLength( 730, w ), ScrH() / 1.5 - GlobalLength( 45, h ) ) --> 730 Until you pick a model
 
 		mdlSelectorScrollPanel.Paint = function( self, w, h )
 
@@ -167,7 +177,7 @@ if CLIENT then
 		local mdlSelector = vgui.Create( "DIconLayout", mdlSelectorScrollPanel )
 
 		mdlSelector:SetPos( 0, 0 )
-		mdlSelector:SetSize( GlobalLength( 450, w ), ScrH() / 1.5 - GlobalLength( 45, h ) )
+		mdlSelector:SetSize( GlobalLength( 730, w ), ScrH() / 1.5 - GlobalLength( 45, h ) ) --> 730 Until you pick a model
 		mdlSelector:SetSpaceX( 1 )
 		mdlSelector:SetSpaceY( 1 )
 
@@ -182,6 +192,42 @@ if CLIENT then
 			icon:SetTooltip( string.gsub( name, "^.", string.upper ) )
 
 			icon.DoClick = function()
+
+				surface.PlaySound( "garrysmod/ui_click.wav" )
+
+				if !IsValid(selButton) then
+
+					local selButton = vgui.Create( "DButton", main ) --> Create the continue button
+
+					selButton:SetSize( GlobalLength( 340, w ), GlobalLength( 40, h ) )
+					selButton:SetPos( mW - GlobalLength( 340, w ), mH - GlobalLength( 15, h ) - selButton:GetTall() )
+					selButton:SetText( "Continue" )
+
+					selButton.DoClick = function( self )
+
+						surface.PlaySound( "garrysmod/ui_click.wav" )
+
+						main:Remove()
+
+						gui.EnableScreenClicker( false )
+
+					end
+
+					function selButton:Paint( w, h )
+						draw.RoundedBox( 0, 0, 0, w, h, Color( 65, 133, 244, 255 ) )
+						if selButton:IsHovered() then
+							draw.RoundedBox( 0, 0, h - h * 0.10, w, h * 0.10, Color( 80, 255, 80 ) )  
+							selButton:SetColor( Color( 80, 255, 80 ) )
+						else
+							draw.RoundedBox( 0, 0, h - h * 0.10, w, h * 0.10, Color( 255, 255, 255 ) )
+							selButton:SetColor( Color( 255, 255, 255 ) )
+						end
+					end
+
+				end
+
+				mdlSelector:SetSize( GlobalLength( 400, w ), ScrH() / 1.5 - GlobalLength( 45, h ) ) --> Change to make space for the model panel
+				mdlSelectorScrollPanel:SetSize( GlobalLength( 406, w ), ScrH() / 1.5 - GlobalLength( 45, h ) ) --> Change to make space for the model panel
 
 				mdl:SetModel( model )
 
