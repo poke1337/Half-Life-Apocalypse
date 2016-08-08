@@ -22,6 +22,8 @@ if CLIENT then
 
 		local selectedModel
 
+		local selectedColour
+
 		gui.EnableScreenClicker( true )
 
 		local main = vgui.Create( "DPanel" )
@@ -35,6 +37,13 @@ if CLIENT then
 
 			surface.SetDrawColor( 200, 200, 200 )
 			surface.DrawRect( 0, 0, w, h )
+
+			DisableClipping( true )
+
+			surface.SetDrawColor( 0, 0, 0, 255 )
+			surface.DrawOutlinedRect( -1, -1, w + 2, h + 2 )
+
+			DisableClipping( false )
 
 		end
 
@@ -67,11 +76,74 @@ if CLIENT then
 		mdl:SetAnimated( true )
 		mdl.Angles = Angle( 0, 0, 0 )
 		mdl:SetLookAt( Vector( -100, 0, 25 ) )
+		mdl:SetModel( ply:GetModel() )
 
 		local mdlSelectorScrollPanel = vgui.Create( "DScrollPanel", main )
 
 		mdlSelectorScrollPanel:SetPos( mW - GlobalLength( 750, w ), GlobalLength( 30, h ) )
 		mdlSelectorScrollPanel:SetSize( GlobalLength( 450, w ), ScrH() / 1.5 - GlobalLength( 45, h ) )
+
+		mdlSelectorScrollPanel.Paint = function( self, w, h )
+
+		DisableClipping( true )
+			surface.SetDrawColor( 65, 133, 244, 255 )
+			surface.DrawOutlinedRect( -1, -1, w + 2, h + 2 )
+		DisableClipping( false )
+
+		surface.SetDrawColor( 240, 240, 240, 255 )
+		surface.DrawRect( 0, 0, w, h )
+
+		end
+
+		local SideBar = mdlSelectorScrollPanel:GetVBar()
+
+		function SideBar:Paint( w, h )
+
+			surface.SetDrawColor( 0, 0, 0, 0 )
+			surface.DrawRect( 0, 0, w, h )
+
+		end
+
+		function SideBar.btnUp:Paint( w, h )
+
+			surface.SetDrawColor( 65, 133, 244, 255 )
+			surface.DrawRect( 0, 0, w, h )
+
+			surface.SetDrawColor( 240, 240, 240, 255 )
+			draw.NoTexture()
+			surface.DrawPoly( {
+
+	    			{ x = w / 2, y = h / 3 },
+	    			{ x = w * ( 2 / 3 ), y = h * ( 2 / 3 ) },
+	    			{ x = w / 3, y = h * ( 2 / 3 ) },
+	    			
+			 } )
+
+		end
+
+		function SideBar.btnDown:Paint( w, h )
+
+			surface.SetDrawColor( 65, 133, 244, 255 )
+			surface.DrawRect( 0, 0, w, h )
+
+			surface.SetDrawColor( 240, 240, 240, 255 )
+			draw.NoTexture()
+			surface.DrawPoly( {
+
+				{ x = w / 3, y = h / 3 },
+	    			{ x = w * ( 2 / 3 ), y = h / 3 },
+	    			{ x = w / 2, y = h * ( 2 / 3 ) },
+	    			
+			 } )
+
+		end
+
+		function SideBar.btnGrip:Paint( w, h )
+
+			surface.SetDrawColor( 65, 133, 244, 255 )
+			surface.DrawRect( 0, 0, w, h )
+
+		end
 
 		local mdlSelector = vgui.Create( "DIconLayout", mdlSelectorScrollPanel )
 
@@ -110,9 +182,31 @@ if CLIENT then
 
 		end
 
+		local colourPicker = vgui.Create( "DColorMixer", main )
+
+		colourPicker:SetPos( GlobalLength( 25, w ), mH / 1.87 )
+		colourPicker:SetSize( mW - GlobalLength( 800, w ), mH / 2.25 )
+		colourPicker:SetAlphaBar( false )
+		colourPicker:SetWangs( true )
+		colourPicker:SetPalette( false )
+
+		colourPicker.ValueChanged = function()
+
+			function mdl.Entity:GetPlayerColor()
+
+				return Vector( colourPicker:GetVector().r, colourPicker:GetVector().g, colourPicker:GetVector().b, 1 )
+
+			end
+
+			selectedColour = Vector( colourPicker:GetVector().r, colourPicker:GetVector().g, colourPicker:GetVector().b, 1 )
+
+		end
+
 	end
 
-	concommand.Add( "openmainmenu", openMainMenu() )
+	hla.CreateHookClient( "InitPostEntity" )
+
+	hla.AddHookClient( "InitPostEntity", "createMainMenu", openMainMenu() )
 
 else
 
