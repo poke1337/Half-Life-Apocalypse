@@ -5,6 +5,21 @@ GM.Author = "Poke and Blue Badger"
 DeriveGamemode( "base" )
 
 hla = hla or {}
+hla.Hooks = hla.Hooks or {}
+
+for k,f in ipairs(file.Find(GM.FolderName .. "/gamemode/config/*", "LUA")) do
+
+    local file = "config/" .. f
+
+    if SERVER then
+
+        AddCSLuaFile( file )
+
+    end
+
+    include( file )
+
+end
 
 function GM:Initialize()
 
@@ -12,46 +27,56 @@ function GM:Initialize()
 
 end
 
-local root = GM.FolderName .. "/gamemode/basemodules/"
+if SERVER then
 
-local _, folders = _G.file.Find( root .. "*", "LUA" )
+    hla.LoadModulesServer = function( root )
 
-for i = 1, #folders do
+        local _, folders = _G.file.Find( root .. "*", "LUA" )
 
-    for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/sv*.lua", "LUA" ) ) do
+        for i = 1, #folders do
 
-        if SERVER then
+            for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/sv*.lua", "LUA" ) ) do
 
-            include( root .. folders[ i ] .. "/" .. file )
+                include( root .. folders[ i ] .. "/" .. file )
+
+            end
+
+            for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/sh*.lua", "LUA" ) ) do
+
+                AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
+                include( root .. folders[ i ] .. "/" .. file )
+
+            end
+
+            for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/cl*.lua", "LUA" ) ) do
+
+                AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
+
+            end
 
         end
 
     end
 
-    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/sh*.lua", "LUA" ) ) do
+else
 
-        if SERVER then
+    hla.LoadModulesClient = function( root )
 
-            AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
-            include( root .. folders[ i ] .. "/" .. file )
+        local _, folders = _G.file.Find( root .. "*", "LUA" )
 
-        else
+        for i = 1, #folders do
 
-            include( root .. folders[ i ] .. "/" .. file )
+            for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/sh*.lua", "LUA" ) ) do
 
-        end
+                include( root .. folders[ i ] .. "/" .. file )
 
-    end
+            end
 
-    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/cl*.lua", "LUA" ) ) do
+            for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/cl*.lua", "LUA" ) ) do
 
-        if SERVER then
+                include( root .. folders[ i ] .. "/" .. file )
 
-            AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
-
-        else
-
-            include( root .. folders[ i ] .. "/" .. file )
+            end
 
         end
 
@@ -59,49 +84,22 @@ for i = 1, #folders do
 
 end
 
-local root = GM.FolderName .. "/gamemode/modules/"
+if SERVER then
 
-local _, folders = _G.file.Find( root .. "*", "LUA" )
+    hla.LoadModulesServer( GM.FolderName .. "/gamemode/basemodules/" )
 
-for i = 1, #folders do
+else
 
-    for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/sv*.lua", "LUA" ) ) do
+    hla.LoadModulesClient( GM.FolderName .. "/gamemode/basemodules/" )
 
-        if SERVER then
+end
 
-            include( root .. folders[ i ] .. "/" .. file )
+if SERVER then
 
-        end
+    hla.LoadModulesServer( GM.FolderName .. "/gamemode/modules/" )
 
-    end
+else
 
-    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/sh*.lua", "LUA" ) ) do
-
-        if SERVER then
-
-            AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
-            include( root .. folders[ i ] .. "/" .. file )
-
-        else
-
-            include( root .. folders[ i ] .. "/" .. file )
-
-        end
-
-    end
-
-    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/cl*.lua", "LUA" ) ) do
-
-        if SERVER then
-
-            AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
-
-        else
-
-            include( root .. folders[ i ] .. "/" .. file )
-
-        end
-
-    end
+    hla.LoadModulesClient( GM.FolderName .. "/gamemode/modules/" )
 
 end
