@@ -33,3 +33,4 @@ hla.AddHookServer("ShowSpare2", "Vote to start button", function(ply)
 	end
 
 end )
+
