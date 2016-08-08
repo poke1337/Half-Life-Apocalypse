@@ -76,7 +76,26 @@ if CLIENT then
 		mdl:SetAnimated( true )
 		mdl.Angles = Angle( 0, 0, 0 )
 		mdl:SetLookAt( Vector( -100, 0, 25 ) )
-		mdl:SetModel( ply:GetModel() )
+
+		local colourPicker = vgui.Create( "DColorMixer", main )
+
+		colourPicker:SetPos( GlobalLength( 25, w ), mH / 1.87 )
+		colourPicker:SetSize( mW - GlobalLength( 800, w ), mH / 2.25 )
+		colourPicker:SetAlphaBar( false )
+		colourPicker:SetWangs( true )
+		colourPicker:SetPalette( false )
+
+		colourPicker.ValueChanged = function()
+
+			function mdl.Entity:GetPlayerColor()
+
+				return Vector( colourPicker:GetVector().r, colourPicker:GetVector().g, colourPicker:GetVector().b, 1 )
+
+			end
+
+			selectedColour = Vector( colourPicker:GetVector().r, colourPicker:GetVector().g, colourPicker:GetVector().b, 1 )
+
+		end
 
 		local mdlSelectorScrollPanel = vgui.Create( "DScrollPanel", main )
 
@@ -168,6 +187,14 @@ if CLIENT then
 
 				selectedModel = model
 
+				function mdl.Entity:GetPlayerColor()
+
+					return Vector( colourPicker:GetVector().r, colourPicker:GetVector().g, colourPicker:GetVector().b, 1 )
+
+				end
+
+				selectedColour = Vector( colourPicker:GetVector().r, colourPicker:GetVector().g, colourPicker:GetVector().b, 1 )
+
 			end
 
 			icon.Paint = function( self, w, h )
@@ -179,26 +206,6 @@ if CLIENT then
 				surface.DrawRect( 1, 1, w - 2, h - 2 )
 
 			end
-
-		end
-
-		local colourPicker = vgui.Create( "DColorMixer", main )
-
-		colourPicker:SetPos( GlobalLength( 25, w ), mH / 1.87 )
-		colourPicker:SetSize( mW - GlobalLength( 800, w ), mH / 2.25 )
-		colourPicker:SetAlphaBar( false )
-		colourPicker:SetWangs( true )
-		colourPicker:SetPalette( false )
-
-		colourPicker.ValueChanged = function()
-
-			function mdl.Entity:GetPlayerColor()
-
-				return Vector( colourPicker:GetVector().r, colourPicker:GetVector().g, colourPicker:GetVector().b, 1 )
-
-			end
-
-			selectedColour = Vector( colourPicker:GetVector().r, colourPicker:GetVector().g, colourPicker:GetVector().b, 1 )
 
 		end
 
