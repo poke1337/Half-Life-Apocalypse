@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 GM.Version = "0.9.1"
+=======
+GM.Version = "0.11.0"
+>>>>>>> refs/remotes/origin/master
 GM.Name = "Half-Life: Apocalypse"
 GM.Author = "Poke and Blue Badger"
 
