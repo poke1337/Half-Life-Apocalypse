@@ -1,0 +1,7 @@
+"hla"
+{
+	"base" "base"
+	"title" "Half-Life: Apocalypse"
+	"maps" "^hla_"
+	"menusystem" "0"
+}
