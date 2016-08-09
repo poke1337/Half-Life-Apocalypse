@@ -181,13 +181,13 @@ if CLIENT then
 		mdlSelector:SetSpaceX( 1 )
 		mdlSelector:SetSpaceY( 1 )
 
-		for name, model in SortedPairs( player_manager.AllValidModels() ) do
+		for name, values in hla.PModels do
 
-			util.PrecacheModel( model )
+			util.PrecacheModel( values.model )
 
 			local icon = vgui.Create( "SpawnIcon", mdlSelector )
 
-			icon:SetModel( model )
+			icon:SetModel( values.model )
 			icon:SetSize( GlobalLength( 64, w ), GlobalLength( 64, w ) )
 			icon:SetTooltip( string.gsub( name, "^.", string.upper ) )
 
@@ -226,12 +226,16 @@ if CLIENT then
 
 				end
 
-				mdlSelector:SetSize( GlobalLength( 400, w ), ScrH() / 1.5 - GlobalLength( 45, h ) ) --> Change to make space for the model panel
-				mdlSelectorScrollPanel:SetSize( GlobalLength( 406, w ), ScrH() / 1.5 - GlobalLength( 45, h ) ) --> Change to make space for the model panel
+				if mdlSelector:GetWide() != GlobalLength( 400, w ) then
 
-				mdl:SetModel( model )
+					mdlSelector:SetSize( GlobalLength( 400, w ), ScrH() / 1.5 - GlobalLength( 45, h ) ) --> Change to make space for the model panel
+					mdlSelectorScrollPanel:SetSize( GlobalLength( 406, w ), ScrH() / 1.5 - GlobalLength( 45, h ) ) --> Change to make space for the model panel
 
-				selectedModel = model
+				end
+
+				mdl:SetModel( values.model )
+
+				selectedModel = values.model
 
 				function mdl.Entity:GetPlayerColor()
 
