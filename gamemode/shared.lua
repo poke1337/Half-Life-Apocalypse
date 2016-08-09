@@ -6,6 +6,20 @@ DeriveGamemode( "base" )
 
 hla = hla or {}
 
+for k,f in ipairs(file.Find(GM.FolderName .. "/gamemode/config/*", "LUA")) do
+
+    local file = "config/" .. f
+
+    if SERVER then
+
+        AddCSLuaFile( file )
+
+    end
+
+    include( file )
+
+end
+
 function GM:Initialize()
 
     self.BaseClass.Initialize( self )
