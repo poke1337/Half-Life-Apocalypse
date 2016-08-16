@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 GM.Version = "0.9.1"
+=======
+GM.Version = "0.12.0"
+>>>>>>> refs/remotes/origin/master
 GM.Name = "Half-Life: Apocalypse"
 GM.Author = "Poke and Blue Badger"
 
@@ -6,6 +10,20 @@ DeriveGamemode( "base" )
 
 hla = hla or {}
 hla.Hooks = hla.Hooks or {}
+
+for k,f in ipairs(file.Find(GM.FolderName .. "/gamemode/config/*", "LUA")) do
+
+    local file = "config/" .. f
+
+    if SERVER then
+
+        AddCSLuaFile( file )
+
+    end
+
+    include( file )
+
+end
 
 function GM:Initialize()
 
