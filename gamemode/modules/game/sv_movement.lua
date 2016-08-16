@@ -40,7 +40,7 @@ hla.AddHookServer("KeyPress", "Anti Bhop", function(ply, key)
 
 	if key == IN_JUMP then
 
-		if ply:GetNetworkedBool(beinghurt) == false then
+		if ply:GetNetworkedBool("beinghurt") == false then
 
 			ply:SetWalkSpeed(hla.Settings[ "JumpSpeed" ])
 			ply:SetRunSpeed(hla.Settings[ "JumpSpeed" ])
