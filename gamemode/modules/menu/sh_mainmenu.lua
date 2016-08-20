@@ -180,7 +180,7 @@ if CLIENT then
 		mdlSelector:SetSpaceX( 1 )
 		mdlSelector:SetSpaceY( 1 )
 
-		for name, values in hla.PModels do
+		for name, values in pairs( hla.PModels ) do
 
 			util.PrecacheModel( values.model )
 

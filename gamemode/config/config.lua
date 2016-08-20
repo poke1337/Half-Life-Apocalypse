@@ -1,4 +1,5 @@
 hla.Settings = {}
+hla.PModels = {}
 
 --> Player movement
 hla.Settings[ "RunSpeed" ] 		= 300
