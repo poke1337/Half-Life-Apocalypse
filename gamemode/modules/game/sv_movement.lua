@@ -22,7 +22,7 @@ hla.AddHookServer("PlayerHurt", "Slowing Down Hurt Players", function( victim, a
 	
 	end
 
-	timer.Create(victimSteamID() .. "Hurt Slow Down", 0.5, 1, function()
+	timer.Create(victim:SteamID() .. "Hurt Slow Down", 0.5, 1, function()
 
 		if victim:IsValid() then
 
@@ -40,7 +40,7 @@ hla.AddHookServer("KeyPress", "Anti Bhop", function(ply, key)
 
 	if key == IN_JUMP then
 
-		if ply:GetNetworkedBool(beinghurt) == false then
+		if ply:GetNetworkedBool("BeingHurt") == false then
 
 			ply:SetWalkSpeed(hla.Settings[ "JumpSpeed" ])
 			ply:SetRunSpeed(hla.Settings[ "JumpSpeed" ])
