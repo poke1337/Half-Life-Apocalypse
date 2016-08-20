@@ -5,7 +5,7 @@ hla.AddHookServer("PlayerInitialSpawn", "Set player team", function(ply)
 
 	ply:SetTeam(0)
 
-end
+end )
 
 hla.AddHookServer("PlayerSpawn", "Joining restrictions", function(ply)
 
@@ -28,4 +28,4 @@ hla.AddHookServer("PlayerSpawn", "Joining restrictions", function(ply)
 
 	end
 
-end
+end )

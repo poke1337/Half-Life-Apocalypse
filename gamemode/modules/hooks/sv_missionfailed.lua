@@ -3,7 +3,7 @@ hla.CreateHookServer("Initialize")
 
 local function CheckingAlivePlayers()
 
-	hla.Settings["GameState"] != 2 then return end
+	if hla.Settings["GameState"] != 2 then return end
 
 	local PlayerAlive = false
 
@@ -26,7 +26,7 @@ local function CheckingAlivePlayers()
 
 end
 
-hla.HookAddServer("Initialize", "Map loaded dead checker", function()
+hla.AddHookServer("Initialize", "Map loaded dead checker", function()
 
 	timer.Create("Dead Player Checker", 1, 0, function()
 
