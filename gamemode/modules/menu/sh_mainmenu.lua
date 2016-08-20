@@ -76,7 +76,6 @@ if CLIENT then
 
 		local mdl = vgui.Create( "DModelPanel", main )
 
-		//mdl:SetModel( "models/player/kleiner.mdl" ) --> Not needed, we are blocking the view
 		mdl:SetSize( GlobalLength( 340, w ), ScrH() / 1.5 - GlobalLength( 85, h ) )
 		mdl:SetPos( mW - GlobalLength( 340, w ), GlobalLength( 30, h ) )
 		mdl:SetFOV( 60 )
@@ -270,3 +269,4 @@ else
 	return
 
 end
+

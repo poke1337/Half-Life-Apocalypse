@@ -5,6 +5,7 @@ GM.Author = "Poke and Blue Badger"
 DeriveGamemode( "base" )
 
 hla = hla or {}
+hla.Hooks = {}
 
 for k,f in ipairs(file.Find(GM.FolderName .. "/gamemode/config/*", "LUA")) do
 
@@ -42,7 +43,7 @@ for i = 1, #folders do
 
     end
 
-    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/sh*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/sh*.lua", "LUA" ) ) do
 
         if SERVER then
 
@@ -57,7 +58,7 @@ for i = 1, #folders do
 
     end
 
-    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/cl*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/cl*.lua", "LUA" ) ) do
 
         if SERVER then
 
@@ -85,16 +86,20 @@ for i = 1, #folders do
 
             include( root .. folders[ i ] .. "/" .. file )
 
+            print("Included: " .. root .. folders[ i ] .. "/" .. file )
+
         end
 
     end
 
-    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/sh*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/sh*.lua", "LUA" ) ) do
 
         if SERVER then
 
             AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
             include( root .. folders[ i ] .. "/" .. file )
+
+            print("Included: " .. root .. folders[ i ] .. "/" .. file )
 
         else
 
@@ -104,15 +109,19 @@ for i = 1, #folders do
 
     end
 
-    for k, file in SortedPairs( _G.file.Find( folders[ i ] .. "/cl*.lua", "LUA" ) ) do
+    for k, file in SortedPairs( _G.file.Find( root .. folders[ i ] .. "/cl*.lua", "LUA" ) ) do
 
         if SERVER then
 
             AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
 
+            print("Included: " .. root .. folders[ i ] .. "/" .. file )
+
         else
 
             include( root .. folders[ i ] .. "/" .. file )
+
+            print("Included: " .. root .. folders[ i ] .. "/" .. file )
 
         end
 
