@@ -1,4 +1,4 @@
-GM.Version = "0.14.7"
+GM.Version = "0.15.1"
 GM.Name = "Half-Life: Apocalypse"
 GM.Author = "Poke and Blue Badger"
 
