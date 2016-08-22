@@ -120,10 +120,7 @@ for i = 1, #folders do
         if SERVER then
 
             include( root .. folders[ i ] .. "/" .. file )
-<<<<<<< HEAD
-=======
             print("Included: " .. file )
->>>>>>> refs/remotes/poke1337/development
 
         end
 
@@ -134,15 +131,13 @@ for i = 1, #folders do
         if SERVER then
 
             AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
-<<<<<<< HEAD
+
             include( root .. folders[ i ] .. "/" .. file )
 
         else
 
             include( root .. folders[ i ] .. "/" .. file )
-=======
             print("AddCSLuaFile: " .. file)
->>>>>>> refs/remotes/poke1337/development
 
         end
 
@@ -158,12 +153,9 @@ for i = 1, #folders do
             AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
             print("AddCSLuaFile: " .. file)
 
-<<<<<<< HEAD
         else
 
             include( root .. folders[ i ] .. "/" .. file )
-=======
->>>>>>> refs/remotes/poke1337/development
 
         end
 
@@ -174,10 +166,8 @@ for i = 1, #folders do
 
 end
 
-<<<<<<< HEAD
 hook.Call( "hlaFinishedLoading", GM )
-=======
+
 print("---------------------------")
 print("--Modules setup completed--")
 print("---------------------------")
->>>>>>> refs/remotes/poke1337/development
