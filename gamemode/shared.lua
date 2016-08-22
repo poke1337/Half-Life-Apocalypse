@@ -157,6 +157,8 @@ for i = 1, #folders do
 
 end
 
+hook.Call( "hlaFinishedLoading", GM )
+
 print("---------------------------")
 print("--Modules setup completed--")
 print("---------------------------")
