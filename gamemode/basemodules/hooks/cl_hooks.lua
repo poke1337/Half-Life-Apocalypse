@@ -46,7 +46,7 @@ hla.AddHookClient = function( hookName, identifier, func )
         
         local infoFunction = debug.getinfo( hla.Hooks[ hookName ][ identifier ], "S" )
 
-        _G.ErrorNoHalt( "Hook Name: " .. "\'" .. hookName .. "\'" , "Identifier: " .. "\'" .. identifier .. "\'" .. " already exists on line " .. infoFunction.linedefined .. " " .. infoFunction.source )
+        _G.ErrorNoHalt( "Hook Name: " .. "\' " .. hookName .. "\'" , "Identifier: " .. "\'" .. identifier .. "\'" .. " already exists on line " .. infoFunction.linedefined .. " " .. infoFunction.source ", overriding original hook." )
 
     end
 
