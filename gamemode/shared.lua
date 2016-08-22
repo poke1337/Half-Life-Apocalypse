@@ -131,12 +131,6 @@ for i = 1, #folders do
         if SERVER then
 
             AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
-
-            include( root .. folders[ i ] .. "/" .. file )
-
-        else
-
-            include( root .. folders[ i ] .. "/" .. file )
             print("AddCSLuaFile: " .. file)
 
         end
@@ -153,9 +147,6 @@ for i = 1, #folders do
             AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
             print("AddCSLuaFile: " .. file)
 
-        else
-
-            include( root .. folders[ i ] .. "/" .. file )
 
         end
 
