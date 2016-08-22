@@ -86,8 +86,6 @@ for i = 1, #folders do
 
             include( root .. folders[ i ] .. "/" .. file )
 
-            print("Included: " .. root .. folders[ i ] .. "/" .. file )
-
         end
 
     end
@@ -98,8 +96,6 @@ for i = 1, #folders do
 
             AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
             include( root .. folders[ i ] .. "/" .. file )
-
-            print("Included: " .. root .. folders[ i ] .. "/" .. file )
 
         else
 
@@ -115,16 +111,14 @@ for i = 1, #folders do
 
             AddCSLuaFile( root .. folders[ i ] .. "/" .. file )
 
-            print("Included: " .. root .. folders[ i ] .. "/" .. file )
-
         else
 
             include( root .. folders[ i ] .. "/" .. file )
-
-            print("Included: " .. root .. folders[ i ] .. "/" .. file )
 
         end
 
     end
 
 end
+
+hook.Call( "hlaFinishedLoading", GM )

@@ -20,3 +20,6 @@ hla.Settings[ "Team1N" ] = "Humans"
 hla.Settings[ "Team1C" ] = Color(80, 200, 80)
 hla.Settings[ "Team2N" ] = "Infected"
 hla.Settings[ "Team2C" ] = Color(200, 80, 80)
+
+--> Gui
+hla.Settings[ "DebugHud" ] = true
